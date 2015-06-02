@@ -2,7 +2,7 @@
  * Définition de l'application React en JSX
  */
 
-var Application = require('./components/BaseComponent.react')
+var Application = require('./components/FilmApp.react')
 var React = require('react');
 
 React.render(

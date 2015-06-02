@@ -8,15 +8,11 @@ var FilmStore = require('../stores/FilmStore');
  * @return {object}
  */
 function getFilmState() {
-  return {
-    allFilms: FilmStore.getAll()
-  };
+  return FilmStore.getAll();
 }
 
 function getInitialFilmState() {
-  return {
-    allFilms: FilmStore.getInitialFilmState()
-  };
+  return FilmStore.getInitialFilmState();
 }
 
 var FilmApp = React.createClass({

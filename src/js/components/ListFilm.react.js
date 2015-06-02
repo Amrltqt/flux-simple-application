@@ -19,17 +19,34 @@ var ListFilm = React.createClass({
 
     var allFilms = this.props.allFilms;
     var films = [];
-    for (var key in allFilms.allFilms) {
-      console.log(allFilms.allFilms[key]);
-      films.push(<FilmItem key={key} film={allFilms.allFilms[key]} />);
+    for (var key in allFilms) {
+      films.push(<FilmItem key={key} film={allFilms[key]} />);
     }
 
     return (
-      <ul id="list-films list-group">
-        { films }
-      </ul>
+      <div>
+        <ul id="list-films list-group">
+
+          { films }
+        </ul>
+        <div className="input-group">
+          <input type="text" className="form-control" placeholder="Ajouter un film" ref="inputFilm"/>
+          <span className="input-group-btn">
+            <button className="btn btn-default" type="button" onClick={this._onClickAddFilm}>Ajouter</button>
+          </span>
+        </div>
+      </div>
     );
-  }
+  },
+
+  /**
+   * React to the onclick 
+   */
+  _onClickAddFilm: function(/*object*/event) {
+    var title = React.findDOMNode(this.refs.inputFilm).value;
+    FilmActions.create(title);
+  },
+
 });
 
 module.exports = ListFilm;

@@ -8,6 +8,8 @@ var FilmItem = React.createClass({
     film: ReactPropTypes.object.isRequired
   },
 
+
+
   render: function() {
     var film = this.props.film;
     return (
