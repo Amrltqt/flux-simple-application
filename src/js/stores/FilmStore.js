@@ -12,11 +12,6 @@ var uuid = require('uuid');
 
 var CHANGE_EVENT = 'change';
 
-var _films = {
-  titles: {},
-  positions: []
-}
-
 var _films = {}; // Ensemble des films de l'application.
 
 var _filmsPosition = []; // Ensemble des films de l'application.s
@@ -49,36 +44,6 @@ function moveDown(array, id ) {
     array.splice(newPos,0, id);
 };
 
-/**
- * Création d'un nouveau film
- * @param {string} title Titre du film à ajouter
- */
-function create(title) {
-  var id = uuid.v4();
-  _films[id] = {
-    id: id,                                   // Identifiant généré
-    title: title,                             // Titre du film
-  };
-  _filmsPosition.push(id);
-}
-
-/**
- * Suppression du film dans le Store
- * @param {uuid} id Identifiant du film à supprimer.
- */
-function destroy(id) {
-  delete _films[id];
-  delete _filmsPosition[_filmsPosition.indexOf(id)];
-}
-
-
-function itemMoveUp(id) {
-  moveUp(_filmsPosition, id, 1);
-}
-
-function itemMoveDown(id) {
-  moveDown(_filmsPosition, id, 1);
-}
 
 var FilmStore = assign({}, EventEmitter.prototype, {
 
@@ -151,23 +116,30 @@ var FilmStore = assign({}, EventEmitter.prototype, {
        case FilmConstants.FILM_CREATE:
          var title = payload.title.trim();
          if (title !== '') {
-           create(title);
+           // Create an UUID for the current film title.
+           var id = uuid.v4();
+           _films[id] = {
+             id: id,                                   // Identifiant généré
+             title: title,                             // Titre du film
+           };
+           _filmsPosition.push(id);
            FilmStore.emitChange();
          }
          break;
 
        case FilmConstants.FILM_DESTROY:
-         destroy(payload.id);
+         delete _films[payload.id];
+         delete _filmsPosition[_filmsPosition.indexOf(payload.id)];
          FilmStore.emitChange();
          break;
 
        case FilmConstants.FILM_MOVE_UP:
-         itemMoveUp(payload.id);
+         moveUp(_filmsPosition, payload.id, 1);
          FilmStore.emitChange();
          break;
 
        case FilmConstants.FILM_MOVE_DOWN:
-         itemMoveDown(payload.id);
+         moveDown(_filmsPosition, payload.id, 1);
          FilmStore.emitChange();
          break;
      }
