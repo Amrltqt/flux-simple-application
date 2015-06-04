@@ -14,6 +14,9 @@ var FilmItem = React.createClass({
         <td>
           <button className="btn btn-danger  btn-xs" onClick={this._onMoveDown}> Down </button>
         </td>
+        <td>
+          <a onClick={this._delete}>x</a>
+        </td>
       </tr>
     );
   },
@@ -26,6 +29,10 @@ var FilmItem = React.createClass({
 
   _onMoveDown: function(/*object*/event) {
     FilmActions.moveDown(this.props.film.id);
+  },
+
+  _delete: function(/*object*/event) {
+    FilmActions.destroy(this.props.film.id);
   }
 });
 

@@ -68,6 +68,7 @@ function create(title) {
  */
 function destroy(id) {
   delete _films[id];
+  delete _filmsPosition[_filmsPosition.indexOf(id)];
 }
 
 
@@ -151,7 +152,6 @@ var FilmStore = assign({}, EventEmitter.prototype, {
          var title = payload.title.trim();
          if (title !== '') {
            create(title);
-           // On averti les Listeners qu'on a effectué un changement sur le Store
            FilmStore.emitChange();
          }
          break;
@@ -159,7 +159,6 @@ var FilmStore = assign({}, EventEmitter.prototype, {
        case FilmConstants.FILM_DESTROY:
          destroy(payload.id);
          FilmStore.emitChange();
-         // On averti les Listeners qu'on a effectué un changement sur le Store
          break;
 
        case FilmConstants.FILM_MOVE_UP:
