@@ -9,10 +9,10 @@ var FilmItem = React.createClass({
       <tr className="film-item">
         <td>{ film.title } </td>
         <td>
-          <button className="btn btn-default  btn-xs" onClick={this._onMoveUp}> Up </button>
+          <button className="btn btn-success  btn-xs" onClick={this._onMoveUp}> Up </button>
         </td>
         <td>
-          <button className="btn btn-default  btn-xs" onClick={this._onMoveDown}> Down </button>
+          <button className="btn btn-danger  btn-xs" onClick={this._onMoveDown}> Down </button>
         </td>
       </tr>
     );
