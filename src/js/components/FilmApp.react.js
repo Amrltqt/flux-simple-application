@@ -1,3 +1,7 @@
+/**
+ * @jsx React.DOM
+ */
+
 var ListFilm = require('./ListFilm.react')
 var React = require('react');
 var FilmStore = require('../stores/FilmStore');
@@ -8,11 +12,17 @@ var FilmStore = require('../stores/FilmStore');
  * @return {object}
  */
 function getFilmState() {
-  return FilmStore.getAll();
+  return {
+    films: FilmStore.getAll(),
+    filmPositions: FilmStore.getFilmPosition()
+  };
 }
 
 function getInitialFilmState() {
-  return FilmStore.getInitialFilmState();
+  return {
+    films: FilmStore.getInitialFilmState(),
+    filmPositions: FilmStore.getFilmPosition()
+  };
 }
 
 var FilmApp = React.createClass({
@@ -31,9 +41,10 @@ var FilmApp = React.createClass({
 
 
   render: function() {
+    console.log(this.state.filmPositions);
     return (
       <div>
-        <ListFilm allFilms={getFilmState()}/>
+        <ListFilm allFilms={this.state.films} filmPositions={this.state.filmPositions}/>
       </div>
     );
   },

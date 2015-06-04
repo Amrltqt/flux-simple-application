@@ -6,10 +6,6 @@ var FilmActions = require('../actions/FilmActions');
 
 var ListFilm = React.createClass({
 
-  propTypes: {
-    allFilms: ReactPropTypes.object.isRequired
-  },
-
   render: function() {
 
     // Si il n'y a pas de film dans la liste.
@@ -18,15 +14,21 @@ var ListFilm = React.createClass({
     }
 
     var allFilms = this.props.allFilms;
-    var films = [];
-    for (var key in allFilms) {
-      films.push(<FilmItem key={key} film={allFilms[key]} />);
-    }
+    var filmsPosition = this.props.filmPositions;
 
+    var films = [];
+    for (var indexPosition in filmsPosition) {
+      var currentKey = filmsPosition[indexPosition];
+      films.push(<FilmItem key={currentKey}
+                           film={allFilms[currentKey]}
+                           OnMoveUp={this._onMoveUp}
+                           OnMoveDown={this._onMoveDown}/>);
+    }
+    console.log(allFilms);
+    console.log(filmsPosition);
     return (
       <div>
         <ul id="list-films list-group">
-
           { films }
         </ul>
         <div className="input-group">
@@ -40,7 +42,7 @@ var ListFilm = React.createClass({
   },
 
   /**
-   * React to the onclick 
+   * React to the onclick
    */
   _onClickAddFilm: function(/*object*/event) {
     var title = React.findDOMNode(this.refs.inputFilm).value;

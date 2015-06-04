@@ -12,9 +12,44 @@ var uuid = require('uuid');
 
 var CHANGE_EVENT = 'change';
 
+var _films = {
+  titles: {},
+  positions: []
+}
+
 var _films = {}; // Ensemble des films de l'application.
 
 var _filmsPosition = []; // Ensemble des films de l'application.s
+
+
+function moveUp(array, id) {
+    var index = array.indexOf(id),
+        newPos = index - 1;
+
+    if(index === -1)
+        throw new Error("Element not found in array");
+
+    if(newPos < 0)
+        newPos = 0;
+
+    array.splice(index,1);
+    array.splice(newPos,0, id);
+};
+
+function moveDown(array, id ) {
+    var index = array.indexOf(id),
+        newPos = index + 1;
+
+    if(index === -1)
+        throw new Error("Element not found in array");
+
+    if(newPos >= array.length)
+        newPos = array.length;
+
+    array.splice(index, 1);
+    array.splice(newPos,0, id);
+};
+
 
 
 /**
@@ -27,9 +62,7 @@ function create(title) {
     id: id,                                   // Identifiant généré
     title: title,                             // Titre du film
   };
-  _filmsPosition.push(_films[id]);
-  console.log(_films);
-  console.log(_filmsPosition);
+  _filmsPosition.push(id);
 }
 
 /**
@@ -38,6 +71,15 @@ function create(title) {
  */
 function destroy(id) {
   delete _films[id];
+}
+
+
+function itemMoveUp(id) {
+  moveUp(_filmsPosition, id, 1);
+}
+
+function itemMoveDown(id) {
+  moveDown(_filmsPosition, id, 1);
 }
 
 var FilmStore = assign({}, EventEmitter.prototype, {
@@ -56,9 +98,8 @@ var FilmStore = assign({}, EventEmitter.prototype, {
     for (var key in filmsTitles) {
       var id = uuid.v4();
       _films[id] = {id: id, title: filmsTitles[key]};
-      _filmsPosition.push(_films[id]);
+      _filmsPosition.push(id);
     }
-
     return _films;
   },
 
@@ -68,6 +109,13 @@ var FilmStore = assign({}, EventEmitter.prototype, {
    */
    getAll: function() {
      return _films;
+   },
+
+   /**
+    *
+    */
+   getFilmPosition: function() {
+     return _filmsPosition;
    },
 
    /**
@@ -115,6 +163,16 @@ var FilmStore = assign({}, EventEmitter.prototype, {
          destroy(payload.id);
          FilmStore.emitChange();
          // On averti les Listeners qu'on a effectué un changement sur le Store
+         break;
+
+       case FilmConstants.FILM_MOVE_UP:
+         itemMoveUp(payload.id);
+         FilmStore.emitChange();
+         break;
+
+       case FilmConstants.FILM_MOVE_DOWN:
+         itemMoveDown(payload.id);
+         FilmStore.emitChange();
          break;
      }
    })
