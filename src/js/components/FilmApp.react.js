@@ -43,7 +43,8 @@ var FilmApp = React.createClass({
   render: function() {
     console.log(this.state.filmPositions);
     return (
-      <div>
+      <div className="row">
+        <h1>Listons ensemble nos films préférés.</h1>
         <ListFilm allFilms={this.state.films} filmPositions={this.state.filmPositions}/>
       </div>
     );

@@ -28,9 +28,11 @@ var ListFilm = React.createClass({
     console.log(filmsPosition);
     return (
       <div>
-        <ul id="list-films list-group">
-          { films }
-        </ul>
+        <table className="table table-striped">
+          <tbody>
+            { films }
+          </tbody>
+        </table>
         <div className="input-group">
           <input type="text" className="form-control" placeholder="Ajouter un film" ref="inputFilm"/>
           <span className="input-group-btn">

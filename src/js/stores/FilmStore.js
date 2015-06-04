@@ -21,7 +21,6 @@ var _films = {}; // Ensemble des films de l'application.
 
 var _filmsPosition = []; // Ensemble des films de l'application.s
 
-
 function moveUp(array, id) {
     var index = array.indexOf(id),
         newPos = index - 1;
@@ -49,8 +48,6 @@ function moveDown(array, id ) {
     array.splice(index, 1);
     array.splice(newPos,0, id);
 };
-
-
 
 /**
  * Création d'un nouveau film

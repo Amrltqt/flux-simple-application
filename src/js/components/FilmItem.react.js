@@ -6,15 +6,15 @@ var FilmItem = React.createClass({
   render: function() {
     var film = this.props.film;
     return (
-      <li className="film-item list-group-item">
-        <span className="film-title">{ film.title }  </span>
-        <span className="up-action-film ">
+      <tr className="film-item">
+        <td>{ film.title } </td>
+        <td>
           <button className="btn btn-default  btn-xs" onClick={this._onMoveUp}> Up </button>
-        </span>
-        <span className="down-action-film">
+        </td>
+        <td>
           <button className="btn btn-default  btn-xs" onClick={this._onMoveDown}> Down </button>
-        </span>
-      </li>
+        </td>
+      </tr>
     );
   },
 
